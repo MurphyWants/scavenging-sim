@@ -1,6 +1,6 @@
 import map_class as wum
 
-a = wum.Wumpus()
+a = wum.Wumpus(f=3,w=2,b=3, l=15, h=15)
 a.get_map_data(1,3)
 a.get_map_data(2,3)
 a.get_map_data(2,4)
