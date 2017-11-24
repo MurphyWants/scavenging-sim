@@ -35,22 +35,24 @@ class Wumpus:
 
     Functions:
     ====================================================================
-    init:          Constructorplt.subplots
-    get_length:    Returns map length
-    get_height:    Returns map height
-    generate_map:  Generates a map
-    get_empty_map: Returns a matrix of 0's of size length*height
-    get_heat_map:  Returns the heatmap
-    get_map_data:  Given an x,y coord, returns whats on the map
-    get_hive:      Returns the hive (starting) coords
-    print_all:     Prints out a bunch of info, useful for testing
+    init:           Constructorplt.subplots
+    get_length:     Returns map length
+    get_height:     Returns map height
+    generate_map:   Generates a map
+    get_empty_map:  Returns a matrix of 0's of size length*height
+    get_heat_map:   Returns the heatmap
+    get_map_data:   Given an x,y coord, returns whats on the map
+    get_hive:       Returns the hive (starting) coords
+    print_all:      Prints out a bunch of info, useful for testing
+    graph:          Draws the graph of the map, draws the heatmap
+    reset_heat_map: Resets the heatmap to an empty matrix
     '''
 
     num_map = {0: 'None', 1: 'Hive', 2: 'Breeze', 3: 'Water',
                4: 'Food', 5: 'Scent', 6: 'None', 7: 'Blockade'}
     num_map_colors = {'Hive': 'Yellow', 'Breeze': 'Grey', 'Water': 'Blue',
                       'Food': 'Brown', 'Scent': 'Green', 'None': 'White', 'Blockade': 'Black'}
-    def __init__(self, l=10, h=10, m=None, f=0, w=0, b=0):
+    def __init__(self, l=10, h=10, m=None, f=1, w=1, b=0):
         '''
         l: Length
         h: Height
@@ -67,32 +69,6 @@ class Wumpus:
             self.__map = self.get_empty_map()
             self.generate_map(food=f, water=w,blockade=b)
             self.map_to_plot()
-            '''
-            self.__figure = plt.figure()
-            self.__ax = self.__figure.add_subplot(2,1,1)
-            self.__ax.set_ylim(self.get_height())
-            self.__ax.set_xlim(self.get_length())
-            for rect in self.__plot_map:
-                self.__ax.add_patch(rect)
-            plt.show()
-            '''
-
-            fig = plt.figure(1)
-            ax1 = fig.add_subplot(111)
-            ax1.set_title("Map")
-            for rect in self.__plot_map:
-                ax1.add_patch(rect)
-            ax1.set_ylim(self.get_height())
-            ax1.set_xlim(self.get_length())
-
-            fig2 = plt.figure(2)
-            ax2 = fig2.add_subplot(111)
-            ax2.set_title("Heatmap")
-            ax2.imshow(self.get_heat_map(), cmap='hot', interpolation='nearest')
-            ax2.set_ylim(self.get_height())
-            ax2.set_xlim(self.get_length())
-
-            plt.show()
 
         else:
             self.__length = len(m)
@@ -256,7 +232,7 @@ class Wumpus:
         '''
             Returns the empty map, if we need to make another copy for any reason
         '''
-        return numpy.zeros((self.get_height(), self.get_length()))
+        return numpy.zeros((self.get_length(), self.get_height()))
 
     def get_heat_map(self):
         '''
@@ -298,3 +274,24 @@ class Wumpus:
         for x in vars(self):
             print "\n", x'''
         print "Height ", self.get_height(), " |Length: ", self.get_length(), "\nEmpty Map:\n", self.get_empty_map(), "\nHeat Map:\n", self.get_heat_map(), "\nMap:\n", self.__map
+
+    def graph(self, show=True):
+        fig = plt.figure(1)
+        ax1 = fig.add_subplot(111)
+        ax1.set_title("Map")
+        for rect in self.__plot_map:
+            ax1.add_patch(rect)
+        ax1.set_ylim(self.get_height())
+        ax1.set_xlim(self.get_length())
+
+        fig2 = plt.figure(2)
+        ax2 = fig2.add_subplot(111)
+        ax2.set_title("Heatmap")
+        '''ax2.imshow(self.get_heat_map(), cmap='hot')'''
+        ax2.imshow(self.get_heat_map(), cmap='hot')
+        if show:
+            plt.show()
+        return ax1, ax2
+
+    def reset_heat_map(self):
+        self.__heat_map = self.get_empty_map()
