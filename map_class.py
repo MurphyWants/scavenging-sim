@@ -11,9 +11,8 @@ class Wumpus:
     __length:     Length of the map, initialized at init, default is 10
     __height:     Height of the map, initialized at init, default is 10
     __empty_map:  An empty matrix of length and height, used for making more maps of same size
-    __heap_map:   Heat map used for to see which nodes are more traveled
+    __heat_map:   Heat map used for to see which nodes are more traveled
     __map:        The actual map to be generated
-    __static_map: A static copy of the map for refrence
 
     Constant Variables:
     ====================================================================
@@ -24,18 +23,18 @@ class Wumpus:
     ====================================================================
     Num | Name     | Color  | Purpose
     ----|----------|--------|------------------------------------------
-    0   | None     | White  | Empty Space
+    0   | None     | White  | Empty Space, Starting
     1   | Hive     | Yellow | Starting Place for the bots
     2   | Breeze   | Grey   | Indicates there is a water source nearby
     3   | Water    | Blue   | Water source, breezes around it
     4   | Food     | Brown  | Food source, scent around it
     5   | Scent    | Green  | Indicates there is a food source nearby
-    6   | None     | White  | Empty Space
+    6   | None     | White  | Empty Space, Known Empty Space
     7   | Blockade | Black  | Full space that can't be filled
 
     Functions:
     ====================================================================
-    init:           Constructorplt.subplots
+    init:           Constructor
     get_length:     Returns map length
     get_height:     Returns map height
     generate_map:   Generates a map
@@ -244,6 +243,7 @@ class Wumpus:
         '''
             Given an x,y coordinate: Returns the value on the map (1-7)
             Heatmap (default True):  If True, increases the value on the heatmap
+            isprint (default False): If True, will print the coord trying and an error message if it is out of bounds
         '''
         if isprint:
             print "get_map_data: ", x, ",", y, "\n", self.get_length(), ",", self.get_height(), "\n"
@@ -260,9 +260,15 @@ class Wumpus:
         return self.__map[x][y]
 
     def get_hive(self):
+        '''
+            Getter for the hive, returns as a tuple
+        '''
         return self.__map_hive
 
     def map_to_plot(self):
+        '''
+            Takes the generated map and makes it into rectangles
+        '''
         self.__plot_map = []
         for x in range(self.get_length()):
             for y in range(self.get_height()):
@@ -270,12 +276,23 @@ class Wumpus:
                 self.__plot_map.append(patches.Rectangle((x,y), 1,1, color=self.num_map_colors[self.num_map[map_data]], fill=self.num_map_colors[self.num_map[map_data]]))
 
     def print_all(self):
+        '''
+            Prints a whole bunch of info, useful for testing
+        '''
         '''print dir(self)
         for x in vars(self):
             print "\n", x'''
         print "Height ", self.get_height(), " |Length: ", self.get_length(), "\nEmpty Map:\n", self.get_empty_map(), "\nHeat Map:\n", self.get_heat_map(), "\nMap:\n", self.__map
 
     def graph(self, show=True):
+        '''
+            Graphs the map of rectangles
+            Graphs the heatmap
+
+            If show is true, it will show the graphs
+
+            Returns the figures and axes
+        '''
         fig = plt.figure(1)
         ax1 = fig.add_subplot(111)
         ax1.set_title("Map")
@@ -291,7 +308,10 @@ class Wumpus:
         ax2.imshow(self.get_heat_map(), cmap='hot')
         if show:
             plt.show()
-        return ax1, ax2
+        return fig, ax1, fig2, ax2
 
     def reset_heat_map(self):
+        '''
+            Resets the heatmap to all 0's
+        '''
         self.__heat_map = self.get_empty_map()
