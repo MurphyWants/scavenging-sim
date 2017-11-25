@@ -232,6 +232,7 @@ class Wumpus:
             Returns the empty map, if we need to make another copy for any reason
         '''
         return numpy.zeros((self.get_length(), self.get_height()))
+        ''', dtype=object)'''
 
     def get_heat_map(self):
         '''
@@ -304,7 +305,6 @@ class Wumpus:
         fig2 = plt.figure(2)
         ax2 = fig2.add_subplot(111)
         ax2.set_title("Heatmap")
-        '''ax2.imshow(self.get_heat_map(), cmap='hot')'''
         ax2.imshow(self.get_heat_map(), cmap='hot')
         if show:
             plt.show()
