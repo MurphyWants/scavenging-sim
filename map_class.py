@@ -297,7 +297,9 @@ class Wumpus:
         fig = plt.figure(1)
         ax1 = fig.add_subplot(111)
         ax1.set_title("Map")
-        for rect in self.__plot_map:
+        self.map_to_plot()
+        plot_map = self.__plot_map[:]
+        for rect in plot_map:
             ax1.add_patch(rect)
         ax1.set_ylim(self.get_height())
         ax1.set_xlim(self.get_length())

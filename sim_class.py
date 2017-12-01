@@ -19,7 +19,8 @@ class Simulation:
         get_bot_arr:      Returns the array of bots
         get_wumpus_map:   Returns the wumpus map class
         generate_bot_map: Generates a map of all locations of bots by id
-        graph:            Graphs heatmap, regular map, bot map, distribution map
+        make_graph:       Graphs heatmap, regular map, bot map, distribution map
+        graph:            plt.show()
         run:              Runs the simulation with the given foraging method and search method
     '''
     def __init__(self, wumpus_class=None, bot_number=1):
@@ -52,17 +53,38 @@ class Simulation:
                 distribution[coord[0]][coord[1]] = distribution[coord[0]][coord[1]] + 1
         return m, distribution
 
-    def graph(self):
-        fig, ax1, fig2, ax2 = self.__Wumpus_Map.graph(show=False)
+    def make_graph(self):
+        fig1, ax1, fig2, ax2 = self.__Wumpus_Map.graph(show=False)
         bot_map,distribution = self.generate_bot_map()
         fig3 = plt.figure(3)
         ax3  = fig3.add_subplot(111)
-        ax3.set_title("Distribution")
+        ax3.set_title("Bot Distribution")
         ax3.imshow(distribution, cmap='hot')
         '''
         Todo: Plot m, map of bots
         '''
         plt.show()
+        fig1.clf()
+        fig2.clf()
+        fig3.clf()
 
-    def run(self, foraging_method, searching_method):
+    def graph(self):
+        plt.show()
+
+    def run(self, foraging_method=None, searching_method=None):
         return 0
+
+    def generate_random_heatmap(self, count=None):
+        if count == None:
+            count = random.randint(100, 100000)
+
+        for x in range(count):
+            x_coord = random.randrange(0, self.__Wumpus_Map.get_length())
+            y_coord = random.randrange(0, self.__Wumpus_Map.get_height())
+            self.__Wumpus_Map.get_map_data(x_coord, y_coord)
+
+    def scatter_bots(self):
+        for b in self.__bot_arr:
+            x_coord = random.randrange(0, self.__Wumpus_Map.get_length())
+            y_coord = random.randrange(0, self.__Wumpus_Map.get_height())
+            b.set_loc(x_coord, y_coord)
