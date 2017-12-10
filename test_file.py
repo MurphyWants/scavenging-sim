@@ -2,7 +2,7 @@ import map_class as wum
 import random
 import sim_class as sim
 
-a = wum.Wumpus(f=25,w=20,b=1, l=50, h=75)
+a = wum.Wumpus(f=5,w=3,b=1, l=10, h=10)
 a.print_all()
 s = sim.Simulation(a, bot_number=50)
 s.make_graph()

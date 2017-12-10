@@ -26,6 +26,8 @@ class bot_class:
         get_id:        Returns the bot id
         set_task:      Sets the current bot task
         get_task:      Returns the current task
+        set_sub_task:  Sets the sub task
+        get_sub_task:  Gets the sub task
     '''
     def __init__ (self, wum, bot_id):
         '''
@@ -38,6 +40,7 @@ class bot_class:
         self.__location_x, self.__location_y = wum.get_hive()
         self.__id = bot_id
         self.__task = "None"
+        self.__sub_task = "None"
 
     def get_length(self):
         return self.__length
@@ -131,3 +134,9 @@ class bot_class:
 
     def get_task(self):
         return self.__task
+
+    def set_sub_task(self, task):
+        self.__sub_task = task
+
+    def get_sub_task(self):
+        return self.__sub_task

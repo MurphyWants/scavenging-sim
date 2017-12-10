@@ -13,6 +13,7 @@ class Wumpus:
     __empty_map:  An empty matrix of length and height, used for making more maps of same size
     __heat_map:   Heat map used for to see which nodes are more traveled
     __map:        The actual map to be generated
+    __static_map: A static version of the map
 
     Constant Variables:
     ====================================================================
@@ -67,7 +68,10 @@ class Wumpus:
             self.__heat_map = self.get_empty_map()
             self.__map = self.get_empty_map()
             self.generate_map(food=f, water=w,blockade=b)
-            self.map_to_plot()
+            self.__static_map = self.get_empty_map()
+            for x in range(l):
+                for y in range(h):
+                    self.__static_map[x][y] = self.__map[x][y]
 
         else:
             self.__length = len(m)
@@ -283,8 +287,8 @@ class Wumpus:
         '''print dir(self)
         for x in vars(self):
             print "\n", x'''
-        print "Height ", self.get_height(), " |Length: ", self.get_length(), "\nEmpty Map:\n", self.get_empty_map(), "\nHeat Map:\n", self.get_heat_map(), "\nMap:\n", self.__map
-
+        print "Height ", self.get_height(), " |Length: ", self.get_length(), "\nEmpty Map:\n", self.get_empty_map(), "\nHeat Map:\n", self.get_heat_map(), "\nMap:\n", self.__map, "\nStatic Map:\n", self.__static_map
+        print "\n", self.__map == self.__static_map, "\n"
     def graph(self, show=True):
         '''
             Graphs the map of rectangles

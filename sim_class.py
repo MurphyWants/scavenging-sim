@@ -33,6 +33,8 @@ class Simulation:
         for x in range(bot_number):
             self.__bot_arr.append(bot.bot_class(self.__Wumpus_Map, x+1))
 
+        self.__hive = bot.bot_class(wumpus_class, "Hive")
+
     def get_bot_arr(self):
         return self.__bot_arr
 
@@ -53,7 +55,7 @@ class Simulation:
                 distribution[coord[0]][coord[1]] = distribution[coord[0]][coord[1]] + 1
         return m, distribution
 
-    def make_graph(self):
+    def make_graph(self, Save=False, Show=True):
         fig1, ax1, fig2, ax2 = self.__Wumpus_Map.graph(show=False)
         bot_map,distribution = self.generate_bot_map()
         fig3 = plt.figure(3)
@@ -63,15 +65,54 @@ class Simulation:
         '''
         Todo: Plot m, map of bots
         '''
-        plt.show()
+        plot_map = []
+        num_map = {0: 'None', 1: 'Hive', 2: 'Breeze', 3: 'Water',
+                   4: 'Food', 5: 'Scent', 6: 'None', 7: 'Blockade'}
+        num_map_colors = {'Hive': 'Yellow', 'Breeze': 'Grey', 'Water': 'Blue',
+                          'Food': 'Brown', 'Scent': 'Green', 'None': 'White', 'Blockade': 'Black'}
+        for x in range(self.__Wumpus_Map.get_length()):
+            for y in range(self.__Wumpus_Map.get_height()):
+                map_data = self.__hive.known_map_get(x,y)
+                plot_map.append(patches.Rectangle((x,y), 1,1, color=num_map_colors[num_map[map_data]], fill=num_map_colors[num_map[map_data]]))
+
+        fig4 = plt.figure(4)
+        ax4 = fig4.add_subplot(111)
+
+        plot_map2 = plot_map[:]
+        for rect in plot_map2:
+            ax4.add_patch(rect)
+
+        ax4.set_title("Hive Map")
+
+        if not(Save==False):
+            base_str = Save.get_name() + "/"
+            count = Save.get_number()
+            fig1_str = base_str+"fig1/"+str(count)
+            fig2_str = base_str+"fig2/"+str(count)
+            fig3_str = base_str+"fig3/"+str(count)
+            fig4_str = base_str+"fig4/"+str(count)
+
+            fig1.savefig(fig1_str)
+            fig2.savefig(fig2_str)
+            fig3.savefig(fig3_str)
+            fig4.savefig(fig4_str)
+        if Show:
+            plt.show()
         fig1.clf()
         fig2.clf()
         fig3.clf()
+        fig4.clf()
 
-    def graph(self):
-        plt.show()
+    def run(self, foraging_method, Save=False, Show=True):
 
-    def run(self, foraging_method=None, searching_method=None):
+        method = foraging_method(self.__bot_arr)
+
+        while True:
+                method.run(self.__bot_arr, self.__Wumpus_Map, self.__hive)
+                if Save:
+                    self.make_graph(Save=Save, Show=Show)
+                else:
+                    self.make_graph(Show=Show)
         return 0
 
     def generate_random_heatmap(self, count=None):
