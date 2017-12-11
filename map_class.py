@@ -30,7 +30,7 @@ class Wumpus:
     3   | Water    | Blue   | Water source, breezes around it
     4   | Food     | Brown  | Food source, scent around it
     5   | Scent    | Green  | Indicates there is a food source nearby
-    6   | None     | White  | Empty Space, Known Empty Space
+    6   | None-2   | Black  | Empty Space, Known Empty Space
     7   | Blockade | Black  | Full space that can't be filled
 
     Functions:
@@ -49,9 +49,9 @@ class Wumpus:
     '''
 
     num_map = {0: 'None', 1: 'Hive', 2: 'Breeze', 3: 'Water',
-               4: 'Food', 5: 'Scent', 6: 'None', 7: 'Blockade'}
+               4: 'Food', 5: 'Scent', 6: 'None-2', 7: 'Blockade'}
     num_map_colors = {'Hive': 'Yellow', 'Breeze': 'Grey', 'Water': 'Blue',
-                      'Food': 'Brown', 'Scent': 'Green', 'None': 'White', 'Blockade': 'Black'}
+                      'Food': 'Brown', 'Scent': 'Green', 'None': 'White', 'Blockade': 'Black', 'None-2' : 'Black'}
     def __init__(self, l=10, h=10, m=None, f=1, w=1, b=0):
         '''
         l: Length

@@ -67,9 +67,9 @@ class Simulation:
         '''
         plot_map = []
         num_map = {0: 'None', 1: 'Hive', 2: 'Breeze', 3: 'Water',
-                   4: 'Food', 5: 'Scent', 6: 'None', 7: 'Blockade'}
+                   4: 'Food', 5: 'Scent', 6: 'None-2', 7: 'Blockade'}
         num_map_colors = {'Hive': 'Yellow', 'Breeze': 'Grey', 'Water': 'Blue',
-                          'Food': 'Brown', 'Scent': 'Green', 'None': 'White', 'Blockade': 'Black'}
+                          'Food': 'Brown', 'Scent': 'Green', 'None': 'White', 'Blockade': 'Black', 'None-2' : 'Black'}
         for x in range(self.__Wumpus_Map.get_length()):
             for y in range(self.__Wumpus_Map.get_height()):
                 map_data = self.__hive.known_map_get(x,y)
@@ -77,12 +77,14 @@ class Simulation:
 
         fig4 = plt.figure(4)
         ax4 = fig4.add_subplot(111)
+        ax4.set_title("Hive Map")
+        ax4.set_ylim(self.__Wumpus_Map.get_height())
+        ax4.set_xlim(self.__Wumpus_Map.get_length())
 
         plot_map2 = plot_map[:]
         for rect in plot_map2:
             ax4.add_patch(rect)
 
-        ax4.set_title("Hive Map")
 
         if not(Save==False):
             base_str = Save.get_name() + "/"
@@ -108,7 +110,7 @@ class Simulation:
         method = foraging_method(self.__bot_arr)
 
         while True:
-                method.run(self.__bot_arr, self.__Wumpus_Map, self.__hive)
+                self.__hive = method.run(self.__bot_arr, self.__Wumpus_Map, self.__hive)
                 if Save:
                     self.make_graph(Save=Save, Show=Show)
                 else:

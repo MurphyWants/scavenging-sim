@@ -105,12 +105,18 @@ class foraging_template:
                         if (bots[i].get_loc()[0] < coord[0]):
                             bots[i].set_loc((bots[i].get_loc()[0] +1), (bots[i].get_loc()[1]))
                             x_coord, y_coord = bots[i].get_loc()
-                            bots[i].known_map_set(x_coord, y_coord, wum.get_map_data(x_coord, y_coord))
+                            get_data = wum.get_map_data(x_coord, y_coord)
+                            if get_data == 0:
+                                get_data = 6
+                            bots[i].known_map_set(x_coord, y_coord, get_data)
 
                         if (bots[i].get_loc()[0] > coord[0]):
                             bots[i].set_loc((bots[i].get_loc()[0] - 1), (bots[i].get_loc()[1]))
                             x_coord, y_coord = bots[i].get_loc()
-                            bots[i].known_map_set(x_coord, y_coord, wum.get_map_data(x_coord, y_coord))
+                            get_data = wum.get_map_data(x_coord, y_coord)
+                            if get_data == 0:
+                                get_data = 6
+                            bots[i].known_map_set(x_coord, y_coord, get_data)
 
                         else:
                             bots[i].set_sub_task(('Y', bots[i].get_sub_task()[1], bots[i].get_sub_task()[2]))
@@ -119,16 +125,21 @@ class foraging_template:
                         if (bots[i].get_loc()[1] < coord[1]):
                             bots[i].set_loc((bots[i].get_loc()[0]), (bots[i].get_loc()[1]+1))
                             x_coord, y_coord = bots[i].get_loc()
-                            bots[i].known_map_set(x_coord, y_coord, wum.get_map_data(x_coord, y_coord))
-
-                        if (bots[i].get_loc()[0] > coord[0]):
+                            get_data = wum.get_map_data(x_coord, y_coord)
+                            if get_data == 0:
+                                get_data = 6
+                            bots[i].known_map_set(x_coord, y_coord, get_data)
+                        if (bots[i].get_loc()[1] > coord[1]):
                             bots[i].set_loc((bots[i].get_loc()[0]), (bots[i].get_loc()[1] -1))
                             x_coord, y_coord = bots[i].get_loc()
-                            bots[i].known_map_set(x_coord, y_coord, wum.get_map_data(x_coord, y_coord))
+                            get_data = wum.get_map_data(x_coord, y_coord)
+                            if get_data == 0:
+                                get_data = 6
+                            bots[i].known_map_set(x_coord, y_coord, get_data)
 
                         else:
                             bots[i].set_sub_task(('X', bots[i].get_sub_task()[1], bots[i].get_sub_task()[2]))
 
             if bots[i].get_task() == "Collect":
-                return 0
-        return 0
+                continue
+        return hive

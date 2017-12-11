@@ -140,3 +140,6 @@ class bot_class:
 
     def get_sub_task(self):
         return self.__sub_task
+
+    def get_full_known_map(self):
+        return self.__known_map

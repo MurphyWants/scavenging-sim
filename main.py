@@ -18,4 +18,4 @@ class test_functor:
 a = wum.Wumpus(f=5,w=3,b=0, l=10, h=10)
 s = sim.Simulation(a, bot_number=10)
 save = test_functor("test1")
-s.run(ft, Save=False, Show=True)
+s.run(ft, Save=save, Show=False)
